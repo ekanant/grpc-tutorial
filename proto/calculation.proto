@@ -6,7 +6,7 @@ option go_package="./services";
 service Calculator {
     rpc Hello(HelloRequest) returns(HelloResponse) {
         option (google.api.http) = {
-            post: "/v1/echo"
+            post: "/my-api/grpc/v1/echo"
             body: "*"
           };
     };
