@@ -15,6 +15,7 @@ func NewCalculationServer() CalculatorServer {
 }
 
 func (calculationServer) Hello(ctx context.Context, req *HelloRequest) (*HelloResponse, error) {
+	fmt.Println("value from request middleware=", ctx.Value("value_from_authen"))
 	if req.Name == "" {
 		return nil, status.Error(500, "Name is required")
 	}

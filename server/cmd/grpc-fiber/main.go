@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"server/services"
 
@@ -29,7 +30,13 @@ func main() {
 	})
 
 	//Use go fiber adapter to make fiber and mux work together.
-	app.Post("/my-api/grpc/*", adaptor.HTTPHandlerFunc(mux.ServeHTTP))
+	app.Post("/my-api/grpc/*", authMiddleware, adaptor.HTTPHandlerFunc(mux.ServeHTTP))
 
 	app.Listen(":3000")
+}
+
+func authMiddleware(c *fiber.Ctx) error {
+	fmt.Println("This is in auth middleware")
+	c.Locals("value_from_authen", "12345")
+	return c.Next()
 }
