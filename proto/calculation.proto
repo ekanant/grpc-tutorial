@@ -1,14 +1,21 @@
 syntax="proto3";
-
 package services;
+import "google/api/annotations.proto";
 option go_package="./services";
 
 service Calculator {
-    rpc Hello(HelloRequest) returns(HelloResponse);
+    rpc Hello(HelloRequest) returns(HelloResponse) {
+        option (google.api.http) = {
+            post: "/v1/echo"
+            body: "*"
+          };
+    };
 }
 
 message HelloRequest {
     string name = 1;
+    string testName = 2;
+    string phone_number = 3;
 }
 
 message HelloResponse {
