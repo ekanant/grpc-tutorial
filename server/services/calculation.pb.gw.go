@@ -78,7 +78,7 @@ func RegisterCalculatorHandlerServer(ctx context.Context, mux *runtime.ServeMux,
 		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/services.Calculator/Hello", runtime.WithHTTPPathPattern("/v1/echo"))
+		ctx, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/services.Calculator/Hello", runtime.WithHTTPPathPattern("/my-api/grpc/v1/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -141,7 +141,7 @@ func RegisterCalculatorHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
-		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/services.Calculator/Hello", runtime.WithHTTPPathPattern("/v1/echo"))
+		ctx, err = runtime.AnnotateContext(ctx, mux, req, "/services.Calculator/Hello", runtime.WithHTTPPathPattern("/my-api/grpc/v1/echo"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -161,7 +161,7 @@ func RegisterCalculatorHandlerClient(ctx context.Context, mux *runtime.ServeMux,
 }
 
 var (
-	pattern_Calculator_Hello_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "echo"}, ""))
+	pattern_Calculator_Hello_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"my-api", "grpc", "v1", "echo"}, ""))
 )
 
 var (
