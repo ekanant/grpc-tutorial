@@ -5,10 +5,7 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"os"
-	"os/signal"
 	"server/services"
-	"time"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"google.golang.org/grpc"
@@ -16,7 +13,15 @@ import (
 
 func main() {
 	//startGrpc()
+	//startHttp()
 	startGrpcAndHttp()
+}
+
+func startGrpcAndHttp() {
+	go func() {
+		startHttp()
+	}()
+	startGrpc()
 }
 
 func startGrpc() {
@@ -50,20 +55,6 @@ func startHttp() {
 		Addr:    ":" + httpPort,
 		Handler: mux,
 	}
-
-	// graceful shutdown
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt)
-	go func() {
-		for range c {
-			// sig is a ^C, handle it
-		}
-
-		_, cancel := context.WithTimeout(ctx, 5*time.Second)
-		defer cancel()
-
-		_ = srv.Shutdown(ctx)
-	}()
 
 	log.Println("starting HTTP/REST gateway..." + httpPort)
 	srv.ListenAndServe()
